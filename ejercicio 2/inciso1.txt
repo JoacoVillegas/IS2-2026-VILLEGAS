@@ -1,0 +1,34 @@
+¿Qué es React?
+React es una biblioteca de JavaScript de código abierto utilizada para construir interfaces de usuario (UI), especialmente para aplicaciones web. Fue desarrollada originalmente por Facebook (actualmente Meta).
+
+React permite dividir una interfaz en componentes reutilizables, lo que facilita el desarrollo y mantenimiento de aplicaciones.
+
+¿Para qué sirve?
+React sirve principalmente para crear interfaces web interactivas y dinámicas. Por ejemplo, permite construir aplicaciones donde una parte de la página puede cambiar según las acciones del usuario sin tener que recargar toda la página.
+
+Se utiliza frecuentemente para desarrollar Single Page Applications (SPA), aunque también puede utilizarse en otros tipos de aplicaciones web.
+
+Características de React
+Componentes: permite dividir la interfaz en pequeñas partes independientes y reutilizables.
+Props: permiten pasar información de un componente a otro.
+Estado (State): permite que los componentes almacenen información que puede cambiar durante la ejecución.
+JSX: permite escribir una sintaxis similar a HTML dentro de JavaScript.
+Renderizado eficiente: React utiliza un modelo basado en un Virtual DOM para determinar qué partes de la interfaz necesitan actualizarse.
+Reutilización: los componentes pueden utilizarse varias veces en diferentes partes de una aplicación.
+Flujo de datos unidireccional: normalmente los datos se transmiten desde los componentes padres hacia los hijos mediante props.
+
+Ventajas
+Facilita la reutilización de código mediante componentes.
+Permite desarrollar interfaces dinámicas e interactivas.
+Tiene una gran comunidad y una gran cantidad de recursos disponibles.
+Su arquitectura basada en componentes facilita el mantenimiento de aplicaciones grandes.
+
+Desventajas
+Al ser una biblioteca y no un framework completo, algunas decisiones de arquitectura deben resolverse utilizando otras herramientas.
+Para principiantes puede resultar confuso al principio comprender conceptos como componentes, props, estado, hooks y renderizado.
+El ecosistema cambia con bastante frecuencia, por lo que algunas herramientas y prácticas pueden quedar desactualizadas.
+Para aplicaciones grandes, elegir y configurar correctamente las diferentes herramientas del ecosistema puede aumentar la complejidad.
+
+¿Qué es React Bootstrap?
+
+React Bootstrap es una biblioteca que permite utilizar los componentes visuales de Bootstrap dentro de aplicaciones React.

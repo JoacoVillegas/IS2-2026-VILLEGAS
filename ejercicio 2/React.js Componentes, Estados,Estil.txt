@@ -1,0 +1,6 @@
+React.js: Componentes, Estados,Estilos y Hooks. ¿DOM virtual?
+Estados iniciales (estos no cambian y solo se inicializan una vez).
+const [is Following, setIsFollowing] = useState(false);
+
+const handleClick = () => {
+setIsFollowing(!isFollowing)}
