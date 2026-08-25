@@ -7,10 +7,12 @@ package com.mycompany.jpaprueba.logica;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -30,16 +32,29 @@ public class Alumno implements Serializable {
     
     @Temporal(TemporalType.DATE)
     private Date fechaNac;
-
+    
+    @OneToOne(cascade = CascadeType.PERSIST)
+    private Carrera carre;
     public Alumno() {
     }
 
-    public Alumno(int id, String nombre, String apellido, Date fechaNac) {
+    public Alumno(int id, String nombre, String apellido, Date fechaNac, Carrera carre) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.fechaNac = fechaNac;
+        this.carre = carre;
     }
+
+    public Carrera getCarre() {
+        return carre;
+    }
+
+    public void setCarre(Carrera carre) {
+        this.carre = carre;
+    }
+
+    
 
     public int getId() {
         return id;
