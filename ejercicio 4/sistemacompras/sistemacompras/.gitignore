@@ -1,0 +1,20 @@
+# --- Credenciales / configuracion local ---
+# Este archivo contiene el usuario y password reales de MySQL: nunca debe
+# subirse al repositorio. Cada persona que clone el proyecto crea el suyo
+# propio a partir de application.properties.example.
+src/main/resources/application.properties
+
+# --- Maven ---
+target/
+
+# --- IDEs ---
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+
+# --- Sistema operativo ---
+.DS_Store
+Thumbs.db

@@ -1,0 +1,119 @@
+<!--
+    FRAGMENTOS REUTILIZABLES DE LA VISTA (capa View de MVC).
+
+    Este archivo no es una pagina completa: es un "banco" de fragmentos
+    Thymeleaf (th:fragment) que las demas paginas insertan con
+    th:replace="~{fragments/layout :: nombreDelFragmento}".
+
+    Sirve para no repetir el sidebar/navbar/footer de la plantilla adminHMD
+    en cada una de las 8+ paginas del sistema: se escribe una sola vez aca
+    y se reutiliza, tal como pide el enunciado (aprovechar la estructura
+    visual de la plantilla proporcionada de forma coherente, no copiarla y
+    pegarla en cada archivo).
+
+    ${session.rol} accede directamente a un atributo guardado en la
+    HttpSession (session.setAttribute("rol", ...) en AuthController):
+    Thymeleaf, integrado con Spring, expone el objeto "session" como una
+    variable implicita disponible en cualquier vista sin que el Controller
+    tenga que agregarla explicitamente al Model.
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <div th:fragment="sidebar(activo)">
+    <div class="sidebar-backdrop" data-sidebar-close></div>
+
+    <aside class="admin-sidebar" id="adminSidebar" aria-label="Main navigation">
+      <div class="sidebar-header">
+        <a class="brand-mark" th:href="@{/dashboard}" aria-label="sistemacompras">
+          <span class="brand-icon"><i class="bi bi-grid-1x2-fill" aria-hidden="true"></i></span>
+          <span class="brand-copy">
+            <span class="brand-title">sistemacompras</span>
+            <span class="brand-subtitle">MVC + JPA + MySQL</span>
+          </span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a class="nav-link" th:classappend="${activo == 'dashboard'} ? 'active'" th:href="@{/dashboard}">
+          <span class="nav-icon"><i class="bi bi-speedometer2" aria-hidden="true"></i></span>
+          <span class="nav-text">Dashboard</span>
+        </a>
+        <a class="nav-link" th:classappend="${activo == 'productos'} ? 'active'" th:href="@{/productos}">
+          <span class="nav-icon"><i class="bi bi-box-seam" aria-hidden="true"></i></span>
+          <span class="nav-text">Productos</span>
+        </a>
+
+        <!-- Enlaces exclusivos del rol Usuario -->
+        <th:block th:if="${session.rol == 'USUARIO'}">
+          <a class="nav-link" th:classappend="${activo == 'compra-nueva'} ? 'active'" th:href="@{/compras/nueva}">
+            <span class="nav-icon"><i class="bi bi-cart-plus" aria-hidden="true"></i></span>
+            <span class="nav-text">Nueva compra</span>
+          </a>
+          <a class="nav-link" th:classappend="${activo == 'compras'} ? 'active'" th:href="@{/compras}">
+            <span class="nav-icon"><i class="bi bi-receipt" aria-hidden="true"></i></span>
+            <span class="nav-text">Mis compras</span>
+          </a>
+        </th:block>
+
+        <!-- Enlaces exclusivos del rol Administrador -->
+        <th:block th:if="${session.rol == 'ADMIN'}">
+          <a class="nav-link" th:classappend="${activo == 'usuarios'} ? 'active'" th:href="@{/usuarios}">
+            <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
+            <span class="nav-text">Usuarios</span>
+          </a>
+          <a class="nav-link" th:classappend="${activo == 'inventario'} ? 'active'" th:href="@{/inventario}">
+            <span class="nav-icon"><i class="bi bi-clipboard-data" aria-hidden="true"></i></span>
+            <span class="nav-text">Inventario</span>
+          </a>
+        </th:block>
+      </nav>
+
+      <div class="sidebar-user">
+        <span class="avatar-img avatar-md sidebar-user-avatar d-flex align-items-center justify-content-center bg-secondary-subtle">
+          <i class="bi bi-person-fill"></i>
+        </span>
+        <strong th:text="${session.nombreSesion}">Usuario</strong>
+        <small th:text="${session.rol == 'ADMIN'} ? 'Administrador' : 'Cliente'">Rol</small>
+      </div>
+
+      <div class="sidebar-footer">
+        <span class="status-dot"></span>
+        <span class="sidebar-footer-text">Conectado a MySQL</span>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ===================== TOPBAR ===================== -->
+  <nav th:fragment="topbar" class="navbar admin-navbar navbar-expand bg-white">
+    <div class="container-fluid px-3 px-lg-4">
+      <button class="sidebar-toggle" type="button" data-sidebar-toggle aria-controls="adminSidebar" aria-expanded="true" aria-label="Toggle sidebar">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="navbar-actions ms-auto">
+        <button class="icon-button theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme" title="Switch color theme">
+          <i class="bi bi-moon-stars" data-theme-icon aria-hidden="true"></i>
+        </button>
+        <div class="dropdown">
+          <button class="profile-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <span class="avatar-img avatar-sm d-flex align-items-center justify-content-center bg-secondary-subtle"><i class="bi bi-person-fill"></i></span>
+            <span class="profile-name d-none d-sm-inline" th:text="${session.nombreSesion}">Usuario</span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" th:href="@{/logout}"><i class="bi bi-box-arrow-right"></i> Cerrar sesion</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer th:fragment="footer" class="admin-footer">
+    <div class="container-fluid px-3 px-lg-4">
+      <span>Trabajo practico &middot; Arquitectura MVC + Controller/Service/DAO + JPA/Hibernate + MySQL + Thymeleaf + Bootstrap.</span>
+    </div>
+  </footer>
+
+</body>
+</html>

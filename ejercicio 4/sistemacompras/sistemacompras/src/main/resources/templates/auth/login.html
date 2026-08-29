@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!--
+    VIEW (capa View de MVC) - Vista de login.
+
+    xmlns:th="http://www.thymeleaf.org" habilita los atributos th:* en este
+    documento HTML (es simplemente un namespace XML; el navegador lo
+    ignora, pero el motor de Thymeleaf en el servidor lo procesa antes de
+    enviar el HTML final).
+-->
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar sesion | sistemacompras</title>
+
+  <!--
+      th:href="@{/css/...}" es la sintaxis de Thymeleaf para generar URLs
+      relativas a la raiz de la aplicacion (evita hardcodear "http://localhost:8080").
+      Estos archivos estan en src/main/resources/static, que Spring Boot
+      sirve automaticamente como contenido estatico.
+  -->
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/vendors/bootstrap-icons/bootstrap-icons.css}">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body class="auth-body">
+  <main class="auth-page">
+    <section class="auth-card">
+      <a class="auth-brand" th:href="@{/login}">
+        <span class="brand-icon"><i class="bi bi-grid-1x2-fill"></i></span>
+        <span><strong>sistemacompras</strong><small>Sistema de usuarios, productos e inventario.</small></span>
+      </a>
+
+      <form th:action="@{/login}" method="post">
+        <div class="mb-4">
+          <p class="eyebrow mb-1">Acceso al sistema</p>
+          <h1 class="h3 mb-1">Iniciar sesion</h1>
+          <p class="text-muted mb-0">El correo personal es tu usuario de acceso.</p>
+        </div>
+
+        <!--
+            th:if evalua una condicion en el servidor: este bloque solo se
+            renderiza (existe en el HTML final) si el Model tiene un
+            atributo "error" no nulo. Lo agrega AuthController.procesarLogin()
+            cuando el login falla.
+        -->
+        <div class="alert alert-danger" th:if="${error != null}" th:text="${error}"></div>
+
+        <!--
+            param.registroExitoso existe cuando se llega a esta pagina via
+            "redirect:/login?registroExitoso" desde AuthController.procesarRegistro().
+            "param" es otra variable implicita de Thymeleaf: expone los
+            query-params de la URL actual.
+        -->
+        <div class="alert alert-success" th:if="${param.registroExitoso != null}">
+          Cuenta creada correctamente. Ya podes iniciar sesion.
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="correo">Correo (usuario)</label>
+          <input class="form-control" id="correo" name="correo" type="email" required autofocus>
+        </div>
+        <div class="mb-4">
+          <label class="form-label" for="password">Contrasena</label>
+          <input class="form-control" id="password" name="password" type="password" required>
+        </div>
+
+        <button class="btn btn-primary w-100" type="submit">
+          <i class="bi bi-box-arrow-in-right"></i> Ingresar
+        </button>
+      </form>
+
+      <div class="auth-footer">Nuevo por aca? <a th:href="@{/registro}">Crear una cuenta</a></div>
+    </section>
+  </main>
+
+  <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/js/main.js}"></script>
+</body>
+</html>

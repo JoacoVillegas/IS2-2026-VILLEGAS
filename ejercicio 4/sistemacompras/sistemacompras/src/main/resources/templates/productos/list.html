@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Productos | sistemacompras</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/vendors/bootstrap-icons/bootstrap-icons.css}">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+  <div class="admin-shell">
+    <div th:replace="~{fragments/layout :: sidebar('productos')}"></div>
+
+    <div class="admin-main">
+      <div th:replace="~{fragments/layout :: topbar}"></div>
+
+      <main class="dashboard-content">
+        <div class="container-fluid px-3 px-lg-4 py-4">
+          <div class="page-heading">
+            <div class="page-heading-copy">
+              <span class="page-icon"><i class="bi bi-box-seam"></i></span>
+              <div>
+                <p class="eyebrow mb-1">Catalogo</p>
+                <h1 class="h3 mb-1">Productos</h1>
+                <p class="text-muted mb-0">Listado con stock actual calculado a partir del inventario.</p>
+              </div>
+            </div>
+            <div class="heading-actions" th:if="${esAdmin}">
+              <a class="btn btn-primary btn-sm" th:href="@{/productos/nuevo}">
+                <i class="bi bi-plus-lg"></i> Nuevo producto
+              </a>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="table-responsive">
+              <table class="table align-middle mb-0">
+                <thead>
+                  <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Descripcion</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Stock actual</th>
+                    <th scope="col" class="text-end" th:if="${esAdmin}">Accion</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!--
+                      th:each itera sobre la lista "productos" que
+                      ProductoController.listar() agrego al Model. Por cada
+                      elemento del backend se genera una fila real: no hay
+                      ningun dato de ejemplo hardcodeado en el HTML, tal
+                      como exige el punto 4 del enunciado.
+                  -->
+                  <tr th:each="producto : ${productos}">
+                    <td th:text="${producto.nombre}">Nombre</td>
+                    <td th:text="${producto.descripcion}">Descripcion</td>
+                    <td th:text="${'$' + producto.precio}">$0</td>
+                    <td>
+                      <span class="badge"
+                            th:classappend="${stockPorProducto.get(producto.id) > 0} ? 'text-bg-success' : 'text-bg-danger'"
+                            th:text="${stockPorProducto.get(producto.id)}">0</span>
+                    </td>
+                    <td class="text-end" th:if="${esAdmin}">
+                      <a class="btn btn-outline-secondary btn-sm" th:href="@{/productos/editar/{id}(id=${producto.id})}">
+                        <i class="bi bi-pencil"></i>
+                      </a>
+                      <form th:action="@{/productos/eliminar/{id}(id=${producto.id})}" method="post" class="d-inline">
+                        <button class="btn btn-outline-danger btn-sm" type="submit"
+                                onclick="return confirm('Eliminar este producto?');">
+                          <i class="bi bi-trash"></i>
+                        </button>
+                      </form>
+                    </td>
+                  </tr>
+                  <tr th:if="${#lists.isEmpty(productos)}">
+                    <td colspan="5" class="text-center text-muted py-4">Todavia no hay productos cargados.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <div th:replace="~{fragments/layout :: footer}"></div>
+    </div>
+  </div>
+
+  <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/js/main.js}"></script>
+</body>
+</html>

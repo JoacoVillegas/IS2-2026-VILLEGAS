@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crear cuenta | sistemacompras</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/vendors/bootstrap-icons/bootstrap-icons.css}">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body class="auth-body">
+  <main class="auth-page">
+    <section class="auth-card">
+      <a class="auth-brand" th:href="@{/login}">
+        <span class="brand-icon"><i class="bi bi-grid-1x2-fill"></i></span>
+        <span><strong>sistemacompras</strong><small>Registro de nuevo usuario.</small></span>
+      </a>
+
+      <!--
+          th:object="${usuario}" vincula todo el <form> con el objeto
+          "usuario" que AuthController.mostrarRegistro() agrego al Model
+          (new Usuario()). A partir de aca, cada th:field="*{atributo}"
+          hace "data binding" automatico: genera el name/id/value del
+          input a partir del getter/setter correspondiente de la entidad
+          Usuario (heredado de Persona), y en el POST, Spring vuelve a
+          armar un objeto Usuario completo con lo que el usuario tipeo
+          (esto es lo que recibe @ModelAttribute Usuario usuario en
+          AuthController.procesarRegistro()).
+      -->
+      <form th:action="@{/registro}" th:object="${usuario}" method="post">
+        <div class="mb-3">
+          <p class="eyebrow mb-1">Nueva cuenta</p>
+          <h1 class="h3 mb-1">Registrarse</h1>
+        </div>
+
+        <div class="alert alert-danger" th:if="${error != null}" th:text="${error}"></div>
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label" for="nombre">Nombre</label>
+            <input class="form-control" id="nombre" th:field="*{nombre}" type="text" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label" for="apellido">Apellido</label>
+            <input class="form-control" id="apellido" th:field="*{apellido}" type="text" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label" for="documento">Documento</label>
+            <input class="form-control" id="documento" th:field="*{documento}" type="text" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label" for="fechaDeNacimiento">Fecha de nacimiento</label>
+            <!--
+                Este campo se envia como String plano ("fechaDeNacimiento")
+                y no con th:field, porque en el Controller se recibe por
+                separado (@RequestParam String fechaDeNacimiento) para
+                convertirlo explicitamente con LocalDate.parse(...) y dejar
+                bien visible esa conversion de tipos en el codigo del
+                Controller.
+            -->
+            <input class="form-control" id="fechaDeNacimiento" name="fechaDeNacimiento" type="date" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label" for="correo">Correo (sera tu usuario)</label>
+            <input class="form-control" id="correo" th:field="*{correo}" type="email" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label" for="password">Contrasena</label>
+            <input class="form-control" id="password" th:field="*{password}" type="password" required>
+          </div>
+        </div>
+
+        <button class="btn btn-primary w-100 mt-4" type="submit">
+          <i class="bi bi-person-plus"></i> Crear cuenta
+        </button>
+      </form>
+
+      <div class="auth-footer">Ya tenes cuenta? <a th:href="@{/login}">Iniciar sesion</a></div>
+    </section>
+  </main>
+
+  <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/js/main.js}"></script>
+</body>
+</html>

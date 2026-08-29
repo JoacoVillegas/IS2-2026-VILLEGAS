@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mis compras | sistemacompras</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/vendors/bootstrap-icons/bootstrap-icons.css}">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+  <div class="admin-shell">
+    <div th:replace="~{fragments/layout :: sidebar('compras')}"></div>
+
+    <div class="admin-main">
+      <div th:replace="~{fragments/layout :: topbar}"></div>
+
+      <main class="dashboard-content">
+        <div class="container-fluid px-3 px-lg-4 py-4">
+          <div class="page-heading">
+            <div class="page-heading-copy">
+              <span class="page-icon"><i class="bi bi-receipt"></i></span>
+              <div>
+                <p class="eyebrow mb-1">Compras</p>
+                <h1 class="h3 mb-1">Mis compras</h1>
+              </div>
+            </div>
+          </div>
+
+          <!--
+              Aca se recorre una lista de Compra, y por cada Compra se
+              recorre a su vez la lista de DetalleCompra (relacion de
+              composicion): dos th:each anidados reflejan directamente en
+              la vista la estructura de objetos que arma CompraService.
+          -->
+          <div class="panel mb-3" th:each="compra : ${compras}">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+              <div>
+                <h2 class="h6 mb-1">Compra #<span th:text="${compra.id}">1</span></h2>
+                <p class="text-muted small mb-0" th:text="${#temporals.format(compra.fechaCompra, 'dd/MM/yyyy HH:mm')}">Fecha</p>
+              </div>
+              <span class="badge" th:classappend="${compra.anulada} ? 'text-bg-danger' : 'text-bg-success'"
+                    th:text="${compra.anulada} ? 'Anulada' : 'Confirmada'">Estado</span>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-sm align-middle mb-2">
+                <thead>
+                  <tr><th>Producto</th><th>Cantidad</th><th>Precio unitario</th><th>Subtotal</th></tr>
+                </thead>
+                <tbody>
+                  <tr th:each="detalle : ${compra.detalles}">
+                    <td th:text="${detalle.producto.nombre}">Producto</td>
+                    <td th:text="${detalle.cantidad}">1</td>
+                    <td th:text="${'$' + detalle.precioUnitario}">$0</td>
+                    <td th:text="${'$' + detalle.subtotal}">$0</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="text-end fw-semibold">Total: <span th:text="${'$' + compra.precioTotal}">$0</span></div>
+          </div>
+
+          <div class="panel text-center text-muted py-4" th:if="${#lists.isEmpty(compras)}">
+            Todavia no realizaste ninguna compra.
+          </div>
+        </div>
+      </main>
+
+      <div th:replace="~{fragments/layout :: footer}"></div>
+    </div>
+  </div>
+
+  <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/js/main.js}"></script>
+</body>
+</html>
