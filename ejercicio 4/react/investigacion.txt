@@ -1,0 +1,19 @@
+1) Los estados en react se tratan de datos de un componente que pueden cambiar de valor durante la ejecución de la aplicación. 
+Algunas de sus características son;
+- Son dinámicos
+- Pertenecen a un componente, y un componente puede tener uno o varios estados.
+- Se actualizan mediante la función que se escribe. (ej; const [nombre, setNombre] la función es setNombre).
+En el ejemplo lo que se ve const [contador, setContador] = useState(0); es nuestro ejemplo de estado. contador será nuestra variable, setContador nuestra función de cambio de estado de esa variable y useState nos da un valor inicial de contador que aca es 0. Al apretar uno de los botones incrementar o decrementar, se genera un evento que según el botón se da un distinto argumento a setContador, y de esa manera cambia.
+
+2) Los eventos en react se puede decir que son acciones que al ser realizadas, desencadenan la realización de otra accion. Algunas de sus características;
+- Permiten responder a acciones del usuario
+- utilizan camelCase
+- Reciben funciones que se ejecutan cuando ocurre el evento
+En el ejemplo se puede ver que el evento onClick al realizarse en el botón que dice "presionar botón", desencadena la función manejarClick, en donde esta función setea un mensaje, finalmente, el componente se renderiza y se visualiza el nuevo mensaje.
+
+3) Un hook en React es una función especial que te permite usar el estado y el ciclo de vida de un componente dentro de funciones simples, sin necesidad de escribir clases.
+Algunas de sus características son;
+- Sus nombres generalmente comienzan con use.
+- se utilizan para manejar estados, o ejecutar efectos secundarios.
+Se usa de ejemplo el useEffect, el cual es un hook que permite ejecutar efectos secundarios luego del renderizado de un componente. En este caso, cuando el contador sea un numero mayor a 0, se realizar el setMensaje sobre `El contador cambió a ${contador}.`.
+
