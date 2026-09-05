@@ -1,0 +1,25 @@
+React DOM es la librería que permite que REACT se comunique con el DOM (Document Object Model) del navegador, este lleva la representación HTML del navegador.
+En otras palabras, sirve para renderizar componentes en el navegador.
+
+Entre sus características encontramos:
+-Mantiene la interfaz actualizada cuando cambia el estado.
+-Hace uso del método createRoot para montar las aplicaciones.
+
+En el ejemplo presentado, tenemos el componente App, y dentro de main.js haciendo uso del método createRoot, se toma como "raíz" para los próximos componentes a renderizar a App.js.
+
+en el archivo main.js se utiliza createRoot para establecer al elemento HTML que tenga de id "root" como puente con la aplicación React. A partir de ahí, se renderiza el componente App y a su vez React puede renderizar los demás componentes que forman parte de la aplicación.
+
+-----
+
+React Router es una librería utilizada en aplicaciones React para gestionar la navegación entre diferentes vistas mediante rutas. Permite asociar una URL determinada con un componente específico, facilitando la creación de aplicaciones de una sola página (SPA), donde la navegación puede realizarse sin recargar completamente el documento.
+
+Entre sus características:
+-Enrutamiento basado en URLS.
+-Navegación dentro de aplicaciones react.
+
+En el ejemplo se presenta el uso de BrowserRouter, Routes, Route, Link y Outlet.
+BrowserRouter es el encargado de habilitar el sistema de rutas en la aplicación.
+Link nos sirve para dirigirnos a una url especifica.
+Routes se trata de la agrupación de los Route que vamos a definir.
+Route define una ruta concreta y que componente mostramos.
+y finalmente en Outlet es un espacio reservado en donde se colocara el componente de la ruta hija.
