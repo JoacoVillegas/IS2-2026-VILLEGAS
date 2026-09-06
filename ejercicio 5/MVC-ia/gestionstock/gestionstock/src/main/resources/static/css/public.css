@@ -1,0 +1,92 @@
+/*
+  ESTILOS PUBLICOS (pagina principal + login).
+
+  Nota de diseño: la plantilla MiniStore original es un sitio de una sola
+  pagina muy pesado (jQuery, Swiper, Modernizr, docenas de secciones que no
+  aplican a este ejercicio: blog, checkout, testimonios, etc). En lugar de
+  importar todo ese peso para dos pantallas simples (landing + login), se
+  reutiliza directamente su hoja de Bootstrap (bootstrap.min.css) y se
+  retoma su paleta de colores/tipografia (variables --primary-color,
+  --dark-color, fuente Jost) en este archivo propio, mucho mas liviano.
+  Esto es fiel al espiritu de la plantilla sin arrastrar dependencias que
+  no se usan en absoluto en este proyecto.
+*/
+
+:root {
+  --primary-color: #72AEC8;
+  --dark-color: #212529;
+  --accent-color: #717171;
+  --light-color: #f8f9fa;
+}
+
+body.public-body {
+  font-family: 'Jost', 'Lato', sans-serif;
+  background-color: var(--light-color);
+  color: var(--dark-color);
+}
+
+.public-navbar {
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+}
+
+.public-navbar .brand-logo {
+  height: 40px;
+}
+
+.btn-brand {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: #fff;
+}
+
+.btn-brand:hover {
+  background-color: #5f9ab5;
+  border-color: #5f9ab5;
+  color: #fff;
+}
+
+.hero-banner {
+  background-color: var(--light-color);
+  padding: 4rem 0;
+}
+
+.producto-card {
+  border: 1px solid #eee;
+  border-radius: 8px;
+  transition: box-shadow .15s ease-in-out;
+  height: 100%;
+}
+
+.producto-card:hover {
+  box-shadow: 0 .5rem 1rem rgba(0,0,0,.08);
+}
+
+.producto-card .producto-img-placeholder {
+  height: 160px;
+  background-color: var(--light-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-color);
+  font-size: 2rem;
+}
+
+/* ---- Login (reutiliza la misma identidad visual publica) ---- */
+.auth-body {
+  font-family: 'Jost', 'Lato', sans-serif;
+  background-color: var(--light-color);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.08);
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 420px;
+}

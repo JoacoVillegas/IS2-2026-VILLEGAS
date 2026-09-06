@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ordenes de compra | gestionstock</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/vendors/bootstrap-icons/bootstrap-icons.css}">
+  <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+<body>
+  <div class="admin-shell">
+    <div th:replace="~{fragments/layout :: sidebar('ordenes')}"></div>
+
+    <div class="admin-main">
+      <div th:replace="~{fragments/layout :: topbar}"></div>
+
+      <main class="dashboard-content">
+        <div class="container-fluid px-3 px-lg-4 py-4">
+          <div class="page-heading">
+            <div class="page-heading-copy">
+              <span class="page-icon"><i class="bi bi-receipt"></i></span>
+              <div>
+                <p class="eyebrow mb-1">Compras</p>
+                <h1 class="h3 mb-1">Ordenes de compra</h1>
+              </div>
+            </div>
+          </div>
+
+          <!--
+              "ordenes" es un List<OrdenCompraDTO>: cada OrdenCompraDTO ya
+              trae aplanados el nombre del proveedor, el nombre del
+              empleado y la lista de DetalleOrdenDTO (ver OrdenCompraMapper).
+              La vista nunca navega las entidades OrdenCompra/DetalleOrden.
+          -->
+          <div class="panel mb-3" th:each="orden : ${ordenes}">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+              <div>
+                <h2 class="h6 mb-1">Orden #<span th:text="${orden.idOrdenCompra}">1</span> - <span th:text="${orden.nombreProveedor}">Proveedor</span></h2>
+                <p class="text-muted small mb-0">
+                  <span th:text="${#temporals.format(orden.fechaEmision, 'dd/MM/yyyy')}">Fecha</span>
+                  &middot; Registrada por <span th:text="${orden.nombreEmpleado}">Empleado</span>
+                </p>
+              </div>
+              <div class="d-flex align-items-center gap-2">
+                <span class="badge"
+                      th:classappend="${orden.estado.name() == 'CONFIRMADA'} ? 'text-bg-success' : (${orden.estado.name() == 'ANULADA'} ? 'text-bg-danger' : 'text-bg-secondary')"
+                      th:text="${orden.estado}">Estado</span>
+                <form th:if="${orden.estado.name() != 'ANULADA'}" th:action="@{/ordenes/anular/{id}(id=${orden.idOrdenCompra})}" method="post">
+                  <button class="btn btn-outline-danger btn-sm" type="submit" onclick="return confirm('Anular esta orden?');">
+                    Anular
+                  </button>
+                </form>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-sm align-middle mb-2">
+                <thead>
+                  <tr><th>Producto</th><th>Cantidad</th><th>Precio unitario</th><th>Subtotal</th></tr>
+                </thead>
+                <tbody>
+                  <tr th:each="detalle : ${orden.detalles}">
+                    <td th:text="${detalle.nombreProducto}">Producto</td>
+                    <td th:text="${detalle.cantidadProducto}">1</td>
+                    <td th:text="${'$' + detalle.precioUnitario}">$0</td>
+                    <td th:text="${'$' + detalle.subtotalLinea}">$0</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="text-end fw-semibold">Total: <span th:text="${'$' + orden.precioTotal}">$0</span></div>
+          </div>
+
+          <div class="panel text-center text-muted py-4" th:if="${#lists.isEmpty(ordenes)}">
+            Todavia no se registraron ordenes de compra.
+          </div>
+        </div>
+      </main>
+
+      <div th:replace="~{fragments/layout :: footer}"></div>
+    </div>
+  </div>
+
+  <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/js/dashboard.js}"></script>
+</body>
+</html>

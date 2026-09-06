@@ -1,0 +1,85 @@
+<!--
+    FRAGMENTOS REUTILIZABLES DE LA VISTA DEL EMPLEADO (sidebar/topbar/footer),
+    adaptados de la plantilla adminHMD. Igual mecanica que en el ejercicio
+    anterior: un solo archivo con th:fragment, insertado en cada pagina con
+    th:replace para no repetir el HTML del layout en cada vista.
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+  <div th:fragment="sidebar(activo)">
+    <div class="sidebar-backdrop" data-sidebar-close></div>
+
+    <aside class="admin-sidebar" id="adminSidebar" aria-label="Main navigation">
+      <div class="sidebar-header">
+        <a class="brand-mark" th:href="@{/productos}" aria-label="gestionstock">
+          <span class="brand-icon"><i class="bi bi-boxes" aria-hidden="true"></i></span>
+          <span class="brand-copy">
+            <span class="brand-title">gestionstock</span>
+            <span class="brand-subtitle">MVC + DTO + JPA + MySQL</span>
+          </span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a class="nav-link" th:classappend="${activo == 'productos'} ? 'active'" th:href="@{/productos}">
+          <span class="nav-icon"><i class="bi bi-box-seam" aria-hidden="true"></i></span>
+          <span class="nav-text">Inventario</span>
+        </a>
+        <a class="nav-link" th:classappend="${activo == 'proveedores'} ? 'active'" th:href="@{/proveedores}">
+          <span class="nav-icon"><i class="bi bi-truck" aria-hidden="true"></i></span>
+          <span class="nav-text">Proveedores</span>
+        </a>
+        <a class="nav-link" th:classappend="${activo == 'ordenes-nueva'} ? 'active'" th:href="@{/ordenes/nueva}">
+          <span class="nav-icon"><i class="bi bi-cart-plus" aria-hidden="true"></i></span>
+          <span class="nav-text">Realizar compra</span>
+        </a>
+        <a class="nav-link" th:classappend="${activo == 'ordenes'} ? 'active'" th:href="@{/ordenes}">
+          <span class="nav-icon"><i class="bi bi-receipt" aria-hidden="true"></i></span>
+          <span class="nav-text">Ordenes de compra</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-user">
+        <span class="avatar-img avatar-md sidebar-user-avatar d-flex align-items-center justify-content-center bg-secondary-subtle">
+          <i class="bi bi-person-fill"></i>
+        </span>
+        <strong th:text="${session.nombreEmpleado}">Empleado</strong>
+        <small>Empleado</small>
+      </div>
+
+      <div class="sidebar-footer">
+        <span class="status-dot"></span>
+        <span class="sidebar-footer-text">Conectado a MySQL</span>
+      </div>
+    </aside>
+  </div>
+
+  <nav th:fragment="topbar" class="navbar admin-navbar navbar-expand bg-white">
+    <div class="container-fluid px-3 px-lg-4">
+      <button class="sidebar-toggle" type="button" data-sidebar-toggle aria-controls="adminSidebar" aria-expanded="true" aria-label="Toggle sidebar">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="navbar-actions ms-auto">
+        <div class="dropdown">
+          <button class="profile-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <span class="avatar-img avatar-sm d-flex align-items-center justify-content-center bg-secondary-subtle"><i class="bi bi-person-fill"></i></span>
+            <span class="profile-name d-none d-sm-inline" th:text="${session.nombreEmpleado}">Empleado</span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" th:href="@{/}"><i class="bi bi-shop"></i> Ver pagina publica</a></li>
+            <li><a class="dropdown-item" th:href="@{/logout}"><i class="bi bi-box-arrow-right"></i> Cerrar sesion</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <footer th:fragment="footer" class="admin-footer">
+    <div class="container-fluid px-3 px-lg-4">
+      <span>Trabajo practico &middot; MVC + Controller/Service/DAO + DTO + JPA/Hibernate + MySQL + Thymeleaf + Bootstrap.</span>
+    </div>
+  </footer>
+
+</body>
+</html>

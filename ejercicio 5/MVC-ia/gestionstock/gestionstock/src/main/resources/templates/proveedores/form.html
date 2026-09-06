@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="${modoEdicion} ? 'Editar proveedor' : 'Agregar proveedor'">Proveedor</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/vendors/bootstrap-icons/bootstrap-icons.css}">
+  <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+<body>
+  <div class="admin-shell">
+    <div th:replace="~{fragments/layout :: sidebar('proveedores')}"></div>
+
+    <div class="admin-main">
+      <div th:replace="~{fragments/layout :: topbar}"></div>
+
+      <main class="dashboard-content">
+        <div class="container-fluid px-3 px-lg-4 py-4">
+          <div class="page-heading">
+            <div class="page-heading-copy">
+              <span class="page-icon"><i class="bi bi-truck"></i></span>
+              <div>
+                <p class="eyebrow mb-1">Compras</p>
+                <h1 class="h3 mb-1" th:text="${modoEdicion} ? 'Editar proveedor' : 'Agregar proveedor'">Proveedor</h1>
+              </div>
+            </div>
+            <div class="heading-actions">
+              <a class="btn btn-outline-secondary btn-sm" th:href="@{/proveedores}"><i class="bi bi-arrow-left"></i> Volver</a>
+            </div>
+          </div>
+
+          <section class="row g-3">
+            <div class="col-12 col-xl-8">
+              <form class="panel" method="post" th:object="${proveedorDTO}"
+                    th:action="${modoEdicion} ? @{/proveedores/editar/{id}(id=${proveedorDTO.idProveedor})} : @{/proveedores}">
+                <div class="panel-header">
+                  <h2 class="h5 mb-1 section-title"><i class="bi bi-pencil-square"></i><span>Datos del proveedor</span></h2>
+                </div>
+
+                <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+                  <div th:each="err : ${#fields.errors('*')}" th:text="${err}"></div>
+                </div>
+
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label" for="razonSocial">Razon Social</label>
+                    <input class="form-control" id="razonSocial" th:field="*{razonSocial}" type="text" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label" for="cuit">CUIT</label>
+                    <input class="form-control" id="cuit" th:field="*{cuit}" type="text" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label" for="rubro">Rubro</label>
+                    <input class="form-control" id="rubro" th:field="*{rubro}" type="text">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label" for="telefono">Telefono</label>
+                    <input class="form-control" id="telefono" th:field="*{telefono}" type="text">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label" for="correo">Correo</label>
+                    <input class="form-control" id="correo" th:field="*{correo}" type="email">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label" for="direccion">Direccion</label>
+                    <input class="form-control" id="direccion" th:field="*{direccion}" type="text">
+                  </div>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2 mt-4">
+                  <a class="btn btn-outline-secondary" th:href="@{/proveedores}">Cancelar</a>
+                  <button class="btn btn-primary" type="submit"><i class="bi bi-check-lg"></i> Guardar</button>
+                </div>
+              </form>
+            </div>
+          </section>
+        </div>
+      </main>
+
+      <div th:replace="~{fragments/layout :: footer}"></div>
+    </div>
+  </div>
+
+  <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/js/dashboard.js}"></script>
+</body>
+</html>

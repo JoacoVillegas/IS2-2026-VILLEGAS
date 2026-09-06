@@ -1,0 +1,46 @@
+########################################################################
+# CONFIGURACION - gestionstock
+########################################################################
+
+spring.application.name=gestionstock
+
+########################################################################
+# MYSQL
+########################################################################
+
+# createDatabaseIfNotExist=true crea la base sola si no existe.
+# useSSL=false y serverTimezone=UTC evitan advertencias/ambiguedades
+# tipicas de conexiones locales de desarrollo.
+spring.datasource.url=jdbc:mysql://localhost:3306/gestionstock_db?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
+
+# Reemplazar por las credenciales reales de tu instalacion de MySQL.
+spring.datasource.username=TU_USUARIO_MYSQL
+spring.datasource.password=TU_PASSWORD_MYSQL
+
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+########################################################################
+# JPA / HIBERNATE (el ORM)
+########################################################################
+
+# Hibernate crea/actualiza las tablas automaticamente a partir de las
+# entidades @Entity, sin necesidad de escribir el script SQL a mano.
+spring.jpa.hibernate.ddl-auto=update
+
+spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
+
+# Muestra el SQL real generado por Hibernate en la consola (util para
+# demostrar en la exposicion que cada operacion realmente llega a MySQL).
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+
+# Evita LazyInitializationException al renderizar relaciones LAZY desde
+# las vistas Thymeleaf.
+spring.jpa.open-in-view=true
+
+########################################################################
+# THYMELEAF
+########################################################################
+
+spring.thymeleaf.cache=false
+spring.thymeleaf.encoding=UTF-8
