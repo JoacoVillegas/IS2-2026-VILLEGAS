@@ -1,0 +1,30 @@
+Los Hooks de rendimiento son Hooks integrados de React que permiten optimizar el rendimiento de los componentes, evitando realizar cálculos u operaciones innecesarias.
+
+Algunos ejemplos son useMemo y useCallback. En particular, useMemo permite memorizar el resultado de un cálculo y reutilizarlo mientras sus dependencias no cambien.
+
+En el ejemplo realizado, cada vez que cambia un estado, React vuelve a renderizar el componente. Sin embargo, useMemo controla específicamente el cálculo de sum.
+
+Sus dependencias son [a, b] por lo que si cambia a o b, la suma se vuelve a calcular. En cambio, si solamente cambia txt, el componente se vuelve a renderizar pero la suma no se calcula nuevamente, sino que se utiliza el resultado memorizado.
+
+De esta manera, useMemo permite evitar cálculos innecesarios cuando sus dependencias no han cambiado.
+----
+El Context es una funcionalidad de React que permite compartir información entre diferentes componentes sin tener que pasarla mediante props por cada componente intermedio. Algunas de sus características es que puede ser útil para datos globales o compartidos, y que se accede al contexto mediante useContext().
+Es especialmente útil para datos que pueden ser utilizados por varios componentes, como el tema de una aplicación, el usuario autenticado o el idioma.
+
+En el ejemplo realizado, primero se crea el contexto:
+
+const TemaContext = createContext();
+
+Luego, App guarda el tema mediante useState y utiliza TemaContext.Provider para compartirlo:
+
+<TemaContext.Provider value={{ tema, setTema }}>
+    <Pagina />
+</TemaContext.Provider>
+
+Pagina no necesita recibir tema mediante props. El componente BotonTema puede acceder directamente al contexto utilizando:
+
+const { tema, setTema } = useContext(TemaContext);
+
+Cuando se presiona el botón, se cambia el estado entre "claro" y "oscuro".
+
+Este ejemplo muestra la principal ventaja del Context: permite compartir datos entre componentes descendientes sin tener que pasarlos manualmente mediante props a través de los componentes intermedios.
