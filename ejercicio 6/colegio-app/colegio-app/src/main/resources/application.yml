@@ -1,0 +1,89 @@
+# =====================================================================================
+# CONFIGURACION PRINCIPAL DE LA APLICACION
+# -------------------------------------------------------------------------------------
+# Los valores sensibles (usuario/clave de MySQL, credenciales SMTP) NO se escriben aqui
+# en texto plano: se leen desde variables de entorno mediante la sintaxis
+# ${NOMBRE_VARIABLE:valor_por_defecto}. El valor por defecto solo es apto para
+# desarrollo local con MySQL instalado en localhost.
+# =====================================================================================
+
+server:
+  port: 8080
+
+spring:
+  application:
+    name: colegio-app
+
+  # --------------------- BASE DE DATOS (MySQL) ---------------------
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:colegio_db}?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=America/Argentina/Mendoza&allowPublicKeyRetrieval=true
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:2003}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # --------------------- JPA / HIBERNATE ---------------------
+  jpa:
+    hibernate:
+      # 'update': Hibernate crea/actualiza las tablas automaticamente a partir de las
+      # entidades. Comodo para desarrollo academico; en un ambiente productivo real
+      # se reemplazaria por migraciones versionadas (Flyway/Liquibase).
+      ddl-auto: update
+    show-sql: true
+    # defer-datasource-initialization=true: sin esto, Spring ejecutaria
+    # data.sql ANTES de que Hibernate cree las tablas (ddl-auto=update),
+    # y el script fallaria porque las tablas todavia no existirian.
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        format_sql: true
+        # Dialecto especifico de MySQL 8
+        dialect: org.hibernate.dialect.MySQLDialect
+        # ---- Configuracion de Hibernate Envers (auditoria) ----
+        # Prefijo/sufijo que Envers usa para nombrar las tablas de auditoria.
+        # Con esta config, la tabla "profesor" auditada genera "profesor_AUD".
+        envers:
+          audit_table_suffix: _AUD
+          revision_field_name: REV
+          revision_type_field_name: REVTYPE
+
+  # --------------------- THYMELEAF ---------------------
+  thymeleaf:
+    cache: false # en desarrollo se desactiva el cache para ver cambios sin reiniciar
+    encoding: UTF-8
+
+  # --------------------- SPRING MAIL (SMTP) ---------------------
+  # Ejemplo de configuracion para Gmail mediante contraseña de aplicacion.
+  # Ver README.md, seccion "Configurar SMTP", para instrucciones detalladas.
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+        transport:
+          protocol: smtp
+
+  # --------------------- CARGA DE DATOS DE PRUEBA ---------------------
+  sql:
+    init:
+      mode: always
+
+# Remitente que figura en los correos de bienvenida
+app:
+  mail:
+    remitente: ${MAIL_FROM:no-reply@colegio.com}
+  # Si es 'true', ProfesorService intenta enviar el correo real; si no hay credenciales
+  # SMTP configuradas, se recomienda dejarlo en 'false' y el EmailService solo
+  # registrara el envio en el log (modo simulado), para poder probar el resto del
+  # flujo sin credenciales reales.
+  mail-habilitado: ${MAIL_HABILITADO:false}
+
+logging:
+  level:
+    org.hibernate.envers: DEBUG
+    com.example.colegio: DEBUG

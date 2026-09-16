@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: documentHead('Mi perfil')}"></head>
+<body class="sb-nav-fixed">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav" th:replace="~{fragments/layout :: sidebar-profesor}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Mi perfil</h1>
+                <ol class="breadcrumb mb-4"><li class="breadcrumb-item active">Mi perfil</li></ol>
+                <div th:replace="~{fragments/layout :: alertas}"></div>
+                <div class="card mb-4" style="max-width: 500px;">
+                    <div class="card-body">
+                        <dl class="row">
+                            <dt class="col-sm-4">Nombre</dt><dd class="col-sm-8" th:text="${perfil.nombre}"></dd>
+                            <dt class="col-sm-4">Apellido</dt><dd class="col-sm-8" th:text="${perfil.apellido}"></dd>
+                            <dt class="col-sm-4">Especialidad</dt><dd class="col-sm-8" th:text="${perfil.especialidad}"></dd>
+                            <dt class="col-sm-4">Correo</dt><dd class="col-sm-8" th:text="${perfil.correo}"></dd>
+                            <dt class="col-sm-4">Fecha de nacimiento</dt><dd class="col-sm-8" th:text="${perfil.fechaNacimiento}"></dd>
+                        </dl>
+                        <a class="btn btn-primary" th:href="@{/profesor/cambiar-password}">Cambiar contraseña</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </div>
+</div>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

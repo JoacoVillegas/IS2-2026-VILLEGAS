@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    POM (Project Object Model) de Maven.
+    Maven es la herramienta de construcción (build tool) del proyecto: descarga
+    las dependencias declaradas abajo, compila el código y empaqueta la
+    aplicación en un .jar ejecutable (gracias al plugin de Spring Boot).
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--
+        spring-boot-starter-parent centraliza las versiones de todas las
+        dependencias de Spring Boot para que no haya conflictos entre ellas
+        (una sola versión "conocida" del ecosistema, 3.2.x en este caso).
+    -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.5</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>com.example</groupId>
+    <artifactId>colegio-app</artifactId>
+    <version>1.0.0</version>
+    <name>colegio-app</name>
+    <description>Sistema de gestion escolar - Java + Spring Boot + Thymeleaf (arquitectura MVC de 3 capas)</description>
+
+    <properties>
+        <!--
+            DECISION DE DISENO ADICIONAL: el enunciado pide Java 17 "salvo
+            que exista una razon tecnica justificada para utilizar otra
+            version". Se usa Java 21 (LTS) porque es el JDK efectivamente
+            instalado en el entorno de desarrollo del alumno. Spring Boot
+            3.2.5 soporta Java 21 sin cambios adicionales de dependencias;
+            el unico ajuste real es este numero de version.
+        -->
+        <java.version>21</java.version>
+        <!--
+            Se fija explicitamente una version reciente de Lombok (en lugar
+            de dejar la que trae por defecto spring-boot-starter-parent
+            3.2.5, que es mas vieja). Motivo: Lombok manipula internamente
+            las clases del compilador javac (com.sun.tools.javac.*), por lo
+            que una version vieja de Lombok puede ser INCOMPATIBLE con un
+            JDK mas nuevo que el que existia cuando esa version de Lombok
+            fue publicada. El sintoma tipico es exactamente:
+            "java.lang.ExceptionInInitializerError" /
+            "com.sun.tools.javac.code.TypeTag :: UNKNOWN".
+            1.18.34 soporta JDK hasta la 23; se puede subir aun mas si el
+            propio Lombok publica una version mas nueva.
+        -->
+        <lombok.version>1.18.34</lombok.version>
+    </properties>
+
+    <dependencies>
+        <!-- ============ WEB / MVC / VISTAS ============ -->
+        <!-- Incluye Spring MVC, Tomcat embebido y todo lo necesario para exponer Controllers HTTP -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!-- Motor de plantillas Thymeleaf, integrado con Spring Security mediante thymeleaf-extras-springsecurity6 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity6</artifactId>
+        </dependency>
+
+        <!-- ============ PERSISTENCIA / ORM ============ -->
+        <!-- Spring Data JPA: abstrae Hibernate y provee las interfaces Repository -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <!-- Driver JDBC de MySQL -->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- ============ SEGURIDAD ============ -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!-- ============ VALIDACION (Jakarta Validation / Bean Validation) ============ -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- ============ CORREO (Spring Mail) ============ -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+
+        <!-- ============ AUDITORIA: HIBERNATE ENVERS ============ -->
+        <!-- Requisito explicito del enunciado: la auditoria se hace EXCLUSIVAMENTE con Envers -->
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-envers</artifactId>
+        </dependency>
+
+        <!-- ============ LOMBOK ============ -->
+        <!-- Genera en tiempo de compilacion: getters, setters, constructores, builder, etc. -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- ============ TESTING ============ -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>colegio-app</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!-- Excluye Lombok del jar final: solo se usa en tiempo de compilacion -->
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

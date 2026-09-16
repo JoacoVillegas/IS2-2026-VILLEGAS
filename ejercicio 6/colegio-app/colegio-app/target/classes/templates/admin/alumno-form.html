@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: documentHead('Alumno')}"></head>
+<body class="sb-nav-fixed">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav" th:replace="~{fragments/layout :: sidebar-admin}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4" th:text="${alumnoDTO.id} == null ? 'Nuevo alumno' : 'Editar alumno'">Alumno</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item"><a th:href="@{/admin/alumnos}">Alumnos</a></li>
+                    <li class="breadcrumb-item active">Formulario</li>
+                </ol>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <form th:action="${alumnoDTO.id} == null ? @{/admin/alumnos/nuevo} : @{/admin/alumnos/{id}/editar(id=${alumnoDTO.id})}"
+                              th:object="${alumnoDTO}" method="post">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Nombre</label>
+                                    <input class="form-control" th:field="*{nombre}" />
+                                    <div class="text-danger small" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Apellido</label>
+                                    <input class="form-control" th:field="*{apellido}" />
+                                    <div class="text-danger small" th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Fecha de nacimiento</label>
+                                    <input type="date" class="form-control" th:field="*{fechaNacimiento}" />
+                                    <div class="text-danger small" th:if="${#fields.hasErrors('fechaNacimiento')}" th:errors="*{fechaNacimiento}"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Curso</label>
+                                    <select class="form-select" th:field="*{aulaId}">
+                                        <option th:each="c : ${cursos}" th:value="${c.id}" th:text="${c.gradoNivel} + ' - ' + ${c.division}"></option>
+                                    </select>
+                                    <div class="text-danger small" th:if="${#fields.hasErrors('aulaId')}" th:errors="*{aulaId}"></div>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" type="submit">Guardar</button>
+                            <a class="btn btn-secondary" th:href="@{/admin/alumnos}">Cancelar</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </div>
+</div>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

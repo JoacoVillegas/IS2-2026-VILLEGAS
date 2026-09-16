@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: documentHead('Profesor')}"></head>
+<body class="sb-nav-fixed">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav" th:replace="~{fragments/layout :: sidebar-admin}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4" th:text="${esNuevo} ? 'Nuevo profesor' : 'Editar profesor'">Profesor</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item"><a th:href="@{/admin/profesores}">Profesores</a></li>
+                    <li class="breadcrumb-item active">Formulario</li>
+                </ol>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <!--
+                            th:object vincula el formulario al DTO puesto en el Model
+                            (profesorDTO); th:field genera name/id/value automaticamente
+                            y respeta el token CSRF via th:action.
+                        -->
+                        <form th:action="${esNuevo} ? @{/admin/profesores/nuevo} : @{/admin/profesores/{id}/editar(id=${profesorDTO.id})}"
+                              th:object="${profesorDTO}" method="post">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Nombre</label>
+                                    <input class="form-control" th:field="*{nombre}" />
+                                    <div class="text-danger small" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Apellido</label>
+                                    <input class="form-control" th:field="*{apellido}" />
+                                    <div class="text-danger small" th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <label class="form-label">Sexo</label>
+                                    <select class="form-select" th:field="*{sexo}">
+                                        <option value="MASCULINO">Masculino</option>
+                                        <option value="FEMENINO">Femenino</option>
+                                        <option value="OTRO">Otro</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Fecha de nacimiento</label>
+                                    <input type="date" class="form-control" th:field="*{fechaNacimiento}" />
+                                    <div class="text-danger small" th:if="${#fields.hasErrors('fechaNacimiento')}" th:errors="*{fechaNacimiento}"></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Especialidad</label>
+                                    <input class="form-control" th:field="*{especialidad}" />
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Correo (sera el usuario de acceso)</label>
+                                    <input class="form-control" th:field="*{correo}" th:readonly="${!esNuevo}" />
+                                    <div class="text-danger small" th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}"></div>
+                                    <div class="form-text" th:if="${!esNuevo}">El correo no se puede modificar una vez creado el usuario.</div>
+                                </div>
+                                <div class="col-md-6" th:if="${esNuevo}">
+                                    <label class="form-label">Contraseña inicial</label>
+                                    <input type="password" class="form-control" th:field="*{passwordInicial}" />
+                                    <div class="text-danger small" th:if="${#fields.hasErrors('passwordInicial')}" th:errors="*{passwordInicial}"></div>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" type="submit">Guardar</button>
+                            <a class="btn btn-secondary" th:href="@{/admin/profesores}">Cancelar</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </div>
+</div>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: documentHead('Dashboard')}"></head>
+<body class="sb-nav-fixed">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav" th:replace="~{fragments/layout :: sidebar-profesor}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Hola, <span th:text="${profesor.nombre}"></span></h1>
+                <ol class="breadcrumb mb-4"><li class="breadcrumb-item active">Dashboard</li></ol>
+                <div th:replace="~{fragments/layout :: alertas}"></div>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        Bienvenido/a al sistema. Desde el menu de la izquierda podes consultar tus materias,
+                        tus cursos asignados, los alumnos a tu cargo y gestionar las notas.
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </div>
+</div>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

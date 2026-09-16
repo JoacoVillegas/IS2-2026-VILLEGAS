@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: documentHead('Profesores')}"></head>
+<body class="sb-nav-fixed">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav" th:replace="~{fragments/layout :: sidebar-admin}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Profesores</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item"><a th:href="@{/admin/dashboard}">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Profesores</li>
+                </ol>
+                <div th:replace="~{fragments/layout :: alertas}"></div>
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span><i class="fas fa-chalkboard-teacher me-1"></i> Listado de profesores</span>
+                        <a class="btn btn-primary btn-sm" th:href="@{/admin/profesores/nuevo}">+ Nuevo profesor</a>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr><th>Nombre</th><th>Apellido</th><th>Correo</th><th>Especialidad</th><th>Sexo</th><th>Acciones</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="p : ${profesores}">
+                                    <td th:text="${p.nombre}"></td>
+                                    <td th:text="${p.apellido}"></td>
+                                    <td th:text="${p.correo}"></td>
+                                    <td th:text="${p.especialidad}"></td>
+                                    <td th:text="${p.sexo}"></td>
+                                    <td>
+                                        <a class="btn btn-sm btn-outline-secondary" th:href="@{/admin/profesores/{id}/editar(id=${p.id})}">Editar</a>
+                                        <form th:action="@{/admin/profesores/{id}/eliminar(id=${p.id})}" method="post" class="d-inline"
+                                              onsubmit="return confirm('¿Dar de baja a este profesor?');">
+                                            <button class="btn btn-sm btn-outline-danger" type="submit">Dar de baja</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(profesores)}"><td colspan="6" class="text-center text-muted">No hay profesores registrados.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </div>
+</div>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

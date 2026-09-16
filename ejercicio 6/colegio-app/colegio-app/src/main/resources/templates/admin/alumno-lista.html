@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: documentHead('Alumnos')}"></head>
+<body class="sb-nav-fixed">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav" th:replace="~{fragments/layout :: sidebar-admin}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Alumnos</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item"><a th:href="@{/admin/dashboard}">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Alumnos</li>
+                </ol>
+                <div th:replace="~{fragments/layout :: alertas}"></div>
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span><i class="fas fa-user-graduate me-1"></i> Listado de alumnos</span>
+                        <a class="btn btn-primary btn-sm" th:href="@{/admin/alumnos/nuevo}">+ Nuevo alumno</a>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered table-hover">
+                            <thead><tr><th>Nombre</th><th>Apellido</th><th>Fecha nac.</th><th>Curso</th><th>Acciones</th></tr></thead>
+                            <tbody>
+                                <tr th:each="a : ${alumnos}">
+                                    <td th:text="${a.nombre}"></td>
+                                    <td th:text="${a.apellido}"></td>
+                                    <td th:text="${a.fechaNacimiento}"></td>
+                                    <td th:text="${a.aulaDescripcion}"></td>
+                                    <td>
+                                        <a class="btn btn-sm btn-outline-secondary" th:href="@{/admin/alumnos/{id}/editar(id=${a.id})}">Editar</a>
+                                        <form th:action="@{/admin/alumnos/{id}/eliminar(id=${a.id})}" method="post" class="d-inline"
+                                              onsubmit="return confirm('¿Dar de baja a este alumno?');">
+                                            <button class="btn btn-sm btn-outline-danger" type="submit">Dar de baja</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(alumnos)}"><td colspan="5" class="text-center text-muted">No hay alumnos registrados.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </div>
+</div>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

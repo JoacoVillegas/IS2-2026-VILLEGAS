@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: documentHead('Materia')}"></head>
+<body class="sb-nav-fixed">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav" th:replace="~{fragments/layout :: sidebar-admin}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4" th:text="${materiaDTO.id} == null ? 'Nueva materia' : 'Editar materia'">Materia</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item"><a th:href="@{/admin/materias}">Materias</a></li>
+                    <li class="breadcrumb-item active">Formulario</li>
+                </ol>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <form th:action="${materiaDTO.id} == null ? @{/admin/materias/nuevo} : @{/admin/materias/{id}/editar(id=${materiaDTO.id})}"
+                              th:object="${materiaDTO}" method="post">
+                            <div class="mb-3">
+                                <label class="form-label">Nombre de la materia</label>
+                                <input class="form-control" th:field="*{nombre}" />
+                                <div class="text-danger small" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+                            </div>
+                            <button class="btn btn-primary" type="submit">Guardar</button>
+                            <a class="btn btn-secondary" th:href="@{/admin/materias}">Cancelar</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </div>
+</div>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

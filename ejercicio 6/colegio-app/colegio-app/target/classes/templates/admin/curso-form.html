@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: documentHead('Curso')}"></head>
+<body class="sb-nav-fixed">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav" th:replace="~{fragments/layout :: sidebar-admin}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4" th:text="${cursoDTO.id} == null ? 'Nuevo curso' : 'Editar curso'">Curso</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item"><a th:href="@{/admin/cursos}">Cursos</a></li>
+                    <li class="breadcrumb-item active">Formulario</li>
+                </ol>
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <form th:action="${cursoDTO.id} == null ? @{/admin/cursos/nuevo} : @{/admin/cursos/{id}/editar(id=${cursoDTO.id})}"
+                                      th:object="${cursoDTO}" method="post">
+                                    <div class="mb-3">
+                                        <label class="form-label">Grado</label>
+                                        <select class="form-select" th:field="*{gradoId}">
+                                            <option th:each="g : ${grados}" th:value="${g.id}" th:text="${g.nivel}"></option>
+                                        </select>
+                                        <div class="text-danger small" th:if="${#fields.hasErrors('gradoId')}" th:errors="*{gradoId}"></div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Division (ej: A, B)</label>
+                                        <input class="form-control" th:field="*{division}" />
+                                        <div class="text-danger small" th:if="${#fields.hasErrors('division')}" th:errors="*{division}"></div>
+                                    </div>
+                                    <button class="btn btn-primary" type="submit">Guardar</button>
+                                    <a class="btn btn-secondary" th:href="@{/admin/cursos}">Cancelar</a>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="card mb-4">
+                            <div class="card-header">¿No existe el grado que necesitas?</div>
+                            <div class="card-body">
+                                <form th:action="@{/admin/cursos/grados/nuevo}" method="post" class="row g-2">
+                                    <div class="col-8">
+                                        <input class="form-control" name="nivel" placeholder="Ej: 3er grado" required />
+                                    </div>
+                                    <div class="col-4">
+                                        <button class="btn btn-outline-primary w-100" type="submit">Agregar grado</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </div>
+</div>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

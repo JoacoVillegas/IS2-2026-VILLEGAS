@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: documentHead('Cursos')}"></head>
+<body class="sb-nav-fixed">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav" th:replace="~{fragments/layout :: sidebar-admin}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Cursos</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item"><a th:href="@{/admin/dashboard}">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Cursos</li>
+                </ol>
+                <div th:replace="~{fragments/layout :: alertas}"></div>
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span><i class="fas fa-door-open me-1"></i> Listado de cursos</span>
+                        <a class="btn btn-primary btn-sm" th:href="@{/admin/cursos/nuevo}">+ Nuevo curso</a>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered table-hover">
+                            <thead><tr><th>Grado</th><th>Division</th><th>Cant. alumnos</th><th>Acciones</th></tr></thead>
+                            <tbody>
+                                <tr th:each="c : ${cursos}">
+                                    <td th:text="${c.gradoNivel}"></td>
+                                    <td th:text="${c.division}"></td>
+                                    <td th:text="${c.cantidadAlumnos}"></td>
+                                    <td>
+                                        <a class="btn btn-sm btn-outline-secondary" th:href="@{/admin/cursos/{id}/editar(id=${c.id})}">Editar</a>
+                                        <form th:action="@{/admin/cursos/{id}/eliminar(id=${c.id})}" method="post" class="d-inline"
+                                              onsubmit="return confirm('¿Dar de baja este curso?');">
+                                            <button class="btn btn-sm btn-outline-danger" type="submit">Dar de baja</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(cursos)}"><td colspan="4" class="text-center text-muted">No hay cursos registrados.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </div>
+</div>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

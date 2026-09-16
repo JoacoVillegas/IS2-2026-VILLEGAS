@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: documentHead('Dashboard Admin')}"></head>
+<body class="sb-nav-fixed">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav" th:replace="~{fragments/layout :: sidebar-admin}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Dashboard del Administrador</h1>
+                <ol class="breadcrumb mb-4"><li class="breadcrumb-item active">Dashboard</li></ol>
+                <div th:replace="~{fragments/layout :: alertas}"></div>
+                <div class="row">
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card bg-primary text-white mb-4">
+                            <div class="card-body">Profesores<br/><span class="fs-2" th:text="${cantidadProfesores}">0</span></div>
+                            <a class="card-footer text-white clearfix small" th:href="@{/admin/profesores}">
+                                <span class="float-start">Ver listado</span><span class="float-end"><i class="fas fa-angle-right"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card bg-success text-white mb-4">
+                            <div class="card-body">Alumnos<br/><span class="fs-2" th:text="${cantidadAlumnos}">0</span></div>
+                            <a class="card-footer text-white clearfix small" th:href="@{/admin/alumnos}">
+                                <span class="float-start">Ver listado</span><span class="float-end"><i class="fas fa-angle-right"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card bg-warning text-white mb-4">
+                            <div class="card-body">Materias<br/><span class="fs-2" th:text="${cantidadMaterias}">0</span></div>
+                            <a class="card-footer text-white clearfix small" th:href="@{/admin/materias}">
+                                <span class="float-start">Ver listado</span><span class="float-end"><i class="fas fa-angle-right"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card bg-danger text-white mb-4">
+                            <div class="card-body">Cursos<br/><span class="fs-2" th:text="${cantidadCursos}">0</span></div>
+                            <a class="card-footer text-white clearfix small" th:href="@{/admin/cursos}">
+                                <span class="float-start">Ver listado</span><span class="float-end"><i class="fas fa-angle-right"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </div>
+</div>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>
