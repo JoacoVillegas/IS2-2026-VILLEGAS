@@ -1,0 +1,14 @@
+Jest es un framework de testing para JavaScript que permite crear y ejecutar pruebas automatizadas. Su objetivo es comprobar que el código de una aplicación produzca los resultados esperados y detectar errores cuando se realizan modificaciones.
+
+Entre sus principales características se encuentran la posibilidad de definir pruebas mediante "test", realizar comprobaciones mediante "expect", utilizar diferentes métodos de comparación llamados "matchers" y obtener un resultado indicando qué pruebas fueron exitosas y cuáles fallaron.
+
+React Testing Library es una biblioteca utilizada para realizar pruebas sobre componentes de React. Proporciona herramientas para renderizar componentes, buscar elementos de la interfaz y simular interacciones que realizaría un usuario, como hacer clic en un botón.
+
+Una de sus principales características es que busca probar los componentes desde la perspectiva del usuario, en lugar de centrarse en su implementación interna.
+
+Para ejemplificar su utilización se desarrolló un componente React llamado Contador. Este componente utiliza useState para almacenar un valor que inicialmente es 0 y posee un botón que permite incrementarlo.
+
+Luego se creó un archivo de prueba para dicho componente. En este test, React Testing Library se utiliza para renderizar el componente, buscar el botón de incremento y simular un clic realizado por el usuario.
+
+Finalmente, mediante expect se comprueba que inicialmente aparezca el valor 0 y que, después de realizar el clic, el valor mostrado sea 1.
+
