@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: documentHead('Dashboard Admin')}"></head>
+<body class="sb-nav-fixed">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav" th:replace="~{fragments/layout :: sidebar-admin}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4 mb-4">Panel de Administracion</h1>
+                <div th:replace="~{fragments/layout :: alertas}"></div>
+                <div class="row">
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card club-summary-card h-100">
+                            <div class="card-body">
+                                <div class="text-muted">Socios</div>
+                                <div class="club-summary-value">
+                                    <a th:href="@{/admin/socios}" class="text-decoration-none">Ver listado</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card club-summary-card h-100">
+                            <div class="card-body">
+                                <div class="text-muted">Familias</div>
+                                <div class="club-summary-value">
+                                    <a th:href="@{/admin/familias}" class="text-decoration-none">Ver listado</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card club-summary-card h-100">
+                            <div class="card-body">
+                                <div class="text-muted">Actividades</div>
+                                <div class="club-summary-value">
+                                    <a th:href="@{/admin/actividades}" class="text-decoration-none">Ver listado</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card club-summary-card h-100">
+                            <div class="card-body">
+                                <div class="text-muted">Pagos</div>
+                                <div class="club-summary-value">
+                                    <a th:href="@{/admin/pagos}" class="text-decoration-none">Ver listado</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </div>
+</div>
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

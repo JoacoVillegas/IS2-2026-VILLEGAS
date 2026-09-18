@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>Acceso denegado</title>
+    <link href="/css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+</head>
+<body class="bg-primary">
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="text-center mt-5">
+                <div class="mb-4"><img class="img-fluid" src="/img/error-404-monochrome.svg" alt="" style="max-width: 250px;" /></div>
+                <h1 class="text-white">401 - Acceso denegado</h1>
+                <p class="text-white">Tu usuario no tiene permisos para ver esta pagina.</p>
+                <a class="btn btn-light" th:href="@{/dashboard}">Volver a mi panel</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

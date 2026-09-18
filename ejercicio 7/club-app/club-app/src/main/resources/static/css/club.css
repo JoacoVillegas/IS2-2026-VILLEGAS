@@ -1,0 +1,61 @@
+/*
+    club.css - estilos propios del proyecto, separados de styles.css (SB Admin).
+
+    REGLAS SEGUIDAS (enunciado, punto 22):
+    - Nunca se sobrescriben clases globales de Bootstrap (.card, .btn, .table,
+      .container) directamente: todas las clases de este archivo usan el
+      prefijo "club-" para evitar cualquier colision.
+    - Sin !important.
+    - Sin selectores demasiado generales.
+*/
+
+/* Tarjetas de resumen del dashboard (admin y recepcion) */
+.club-summary-card {
+    border-left: 4px solid var(--bs-primary);
+}
+
+.club-summary-card .club-summary-value {
+    font-size: 1.75rem;
+    font-weight: 600;
+}
+
+/* Miniatura de foto de rostro en listados de Persona/Socio */
+.club-foto-mini {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.club-foto-grande {
+    max-width: 220px;
+    max-height: 220px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* Insignia de estado de socio/pago, reutilizando los colores de Bootstrap
+   pero con una clase propia para no acoplar la vista a .badge-* directamente */
+.club-badge-activo {
+    background-color: var(--bs-success);
+    color: #fff;
+}
+
+.club-badge-inactivo {
+    background-color: var(--bs-secondary);
+    color: #fff;
+}
+
+/* Sidebar: variante propia, hereda todo de sb-sidenav y solo ajusta el ancho
+   minimo en pantallas muy angostas (responsive, punto 21) */
+@media (max-width: 576px) {
+    .club-sidebar {
+        min-width: 100%;
+    }
+}
+
+/* Formularios de alta/edicion: separacion vertical consistente entre
+   secciones sin tocar .form-control ni .mb-3 globales */
+.club-form-seccion + .club-form-seccion {
+    margin-top: 1.5rem;
+}

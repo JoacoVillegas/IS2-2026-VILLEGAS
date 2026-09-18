@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: documentHead('Socio')}"></head>
+<body class="sb-nav-fixed">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav" th:replace="~{fragments/layout :: sidebar-admin}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4" th:text="${socioDTO.id} ? 'Editar socio' : 'Nuevo socio'"></h1>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <form th:action="${socioDTO.id} ? @{/admin/socios/{id}(id=${socioDTO.id})} : @{/admin/socios}"
+                              th:object="${socioDTO}" method="post">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Nombre</label>
+                                    <input class="form-control" th:field="*{nombre}" />
+                                    <div class="text-danger small" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Apellido</label>
+                                    <input class="form-control" th:field="*{apellido}" />
+                                    <div class="text-danger small" th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Fecha de nacimiento</label>
+                                    <input class="form-control" type="date" th:field="*{fechaNacimiento}" />
+                                    <div class="text-danger small" th:if="${#fields.hasErrors('fechaNacimiento')}" th:errors="*{fechaNacimiento}"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Fecha de alta</label>
+                                    <input class="form-control" type="date" th:field="*{fechaAlta}" />
+                                    <div class="text-danger small" th:if="${#fields.hasErrors('fechaAlta')}" th:errors="*{fechaAlta}"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Estado</label>
+                                    <select class="form-select" th:field="*{estado}">
+                                        <option th:each="e : ${T(com.example.club.entity.EstadoSocio).values()}" th:value="${e}" th:text="${e}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <button class="btn btn-primary" type="submit">Guardar</button>
+                                <a class="btn btn-secondary" th:href="@{/admin/socios}">Cancelar</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </div>
+</div>
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

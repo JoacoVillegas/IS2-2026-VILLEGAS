@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: documentHead('Personas')}"></head>
+<body class="sb-nav-fixed">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav" th:replace="~{fragments/layout :: sidebar-admin}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Personas</h1>
+                <p class="text-muted">Integrantes de un grupo familiar que no son socios (ej. hijos, conyuges). Los Socios se administran en su propia seccion.</p>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead><tr><th>Foto</th><th>Nombre</th><th>Apellido</th><th>Fecha nacimiento</th><th></th></tr></thead>
+                                <tbody>
+                                <tr th:each="p : ${personas}">
+                                    <td>
+                                        <img th:if="${p.tieneImagen}" th:src="@{/admin/personas/{id}/imagen(id=${p.id})}" class="club-foto-mini" />
+                                    </td>
+                                    <td th:text="${p.nombre}"></td>
+                                    <td th:text="${p.apellido}"></td>
+                                    <td th:text="${p.fechaNacimiento}"></td>
+                                    <td><a class="btn btn-sm btn-secondary" th:href="@{/admin/personas/{id}(id=${p.id})}">Ver</a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </div>
+</div>
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

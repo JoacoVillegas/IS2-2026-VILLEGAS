@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: documentHead('Detalle de persona')}"></head>
+<body class="sb-nav-fixed">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav" th:replace="~{fragments/layout :: sidebar-admin}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4" th:text="${persona.nombre} + ' ' + ${persona.apellido}"></h1>
+                <div th:replace="~{fragments/layout :: alertas}"></div>
+                <div class="row">
+                    <div class="col-lg-4 mb-4 text-center">
+                        <img th:if="${persona.tieneImagen}" th:src="@{/admin/personas/{id}/imagen(id=${persona.id})}" class="club-foto-grande mb-3" />
+                        <p th:unless="${persona.tieneImagen}" class="text-muted">Sin foto cargada</p>
+                        <form th:action="@{/admin/personas/{id}/imagen(id=${persona.id})}" method="post" enctype="multipart/form-data">
+                            <input class="form-control mb-2" type="file" name="archivo" accept="image/*" required />
+                            <button class="btn btn-primary btn-sm" type="submit">Guardar foto</button>
+                        </form>
+                    </div>
+                    <div class="col-lg-8 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <p><strong>Fecha de nacimiento:</strong> <span th:text="${persona.fechaNacimiento}"></span></p>
+                                <p><strong>Grupo familiar:</strong>
+                                    <a th:if="${persona.grupoFamiliarId}" th:href="@{/admin/familias/{id}(id=${persona.grupoFamiliarId})}">Ver familia</a>
+                                    <span th:unless="${persona.grupoFamiliarId}" class="text-muted">Sin asignar</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </div>
+</div>
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

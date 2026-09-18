@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: documentHead('Actividad')}"></head>
+<body class="sb-nav-fixed">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav" th:replace="~{fragments/layout :: sidebar-admin}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4" th:text="${actividadDTO.id} ? 'Editar actividad' : 'Nueva actividad'"></h1>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <form th:action="${actividadDTO.id} ? @{/admin/actividades/{id}(id=${actividadDTO.id})} : @{/admin/actividades}"
+                              th:object="${actividadDTO}" method="post">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Nombre</label>
+                                    <input class="form-control" th:field="*{nombre}" />
+                                    <div class="text-danger small" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Horario</label>
+                                    <input class="form-control" type="time" th:field="*{horario}" />
+                                    <div class="text-danger small" th:if="${#fields.hasErrors('horario')}" th:errors="*{horario}"></div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Cupos</label>
+                                    <input class="form-control" type="number" min="1" th:field="*{cupos}" />
+                                    <div class="text-danger small" th:if="${#fields.hasErrors('cupos')}" th:errors="*{cupos}"></div>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <button class="btn btn-primary" type="submit">Guardar</button>
+                                <a class="btn btn-secondary" th:href="@{/admin/actividades}">Cancelar</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </div>
+</div>
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

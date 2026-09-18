@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: documentHead('Actividades')}"></head>
+<body class="sb-nav-fixed">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav" th:replace="~{fragments/layout :: sidebar-admin}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Actividades</h1>
+                <div th:replace="~{fragments/layout :: alertas}"></div>
+                <a class="btn btn-primary mb-3" th:href="@{/admin/actividades/nueva}">Nueva actividad</a>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead><tr><th>Nombre</th><th>Horario</th><th>Cupos</th><th>Inscriptos</th><th>Acciones</th></tr></thead>
+                                <tbody>
+                                <tr th:each="a : ${actividades}">
+                                    <td th:text="${a.nombre}"></td>
+                                    <td th:text="${a.horario}"></td>
+                                    <td th:text="${a.cupos}"></td>
+                                    <td th:text="${a.inscriptosActivos} + ' / ' + ${a.cupos}"></td>
+                                    <td>
+                                        <a class="btn btn-sm btn-secondary" th:href="@{/admin/actividades/{id}/editar(id=${a.id})}">Editar</a>
+                                        <a class="btn btn-sm btn-info" th:href="@{/admin/actividades/{id}/inscriptos(id=${a.id})}">Inscriptos</a>
+                                        <form th:action="@{/admin/actividades/{id}/eliminar(id=${a.id})}" method="post" class="d-inline"
+                                              onsubmit="return confirm('¿Dar de baja esta actividad?');">
+                                            <button class="btn btn-sm btn-danger" type="submit">Baja</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </div>
+</div>
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

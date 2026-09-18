@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: documentHead('Socios')}"></head>
+<body class="sb-nav-fixed">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav" th:replace="~{fragments/layout :: sidebar-admin}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Socios</h1>
+                <div th:replace="~{fragments/layout :: alertas}"></div>
+                <a class="btn btn-primary mb-3" th:href="@{/admin/socios/nuevo}">Nuevo socio</a>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Apellido</th>
+                                    <th>Fecha de alta</th>
+                                    <th>Estado</th>
+                                    <th>Familia</th>
+                                    <th>Acciones</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="socio : ${socios}">
+                                    <td th:text="${socio.nombre}"></td>
+                                    <td th:text="${socio.apellido}"></td>
+                                    <td th:text="${socio.fechaAlta}"></td>
+                                    <td>
+                                        <span class="badge"
+                                              th:classappend="${socio.estado.name() == 'ACTIVO'} ? 'club-badge-activo' : 'club-badge-inactivo'"
+                                              th:text="${socio.estado}"></span>
+                                    </td>
+                                    <td>
+                                        <a th:if="${socio.grupoFamiliarId}" th:href="@{/admin/familias/{id}(id=${socio.grupoFamiliarId})}">Ver familia</a>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-sm btn-secondary" th:href="@{/admin/socios/{id}/editar(id=${socio.id})}">Editar</a>
+                                        <form th:action="@{/admin/socios/{id}/eliminar(id=${socio.id})}" method="post" class="d-inline"
+                                              onsubmit="return confirm('¿Dar de baja este socio?');">
+                                            <button class="btn btn-sm btn-danger" type="submit">Baja</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </div>
+</div>
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

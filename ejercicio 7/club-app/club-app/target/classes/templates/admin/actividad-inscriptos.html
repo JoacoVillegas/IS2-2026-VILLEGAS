@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: documentHead('Inscriptos')}"></head>
+<body class="sb-nav-fixed">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav" th:replace="~{fragments/layout :: sidebar-admin}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Inscriptos a <span th:text="${actividad.nombre}"></span></h1>
+                <div th:replace="~{fragments/layout :: alertas}"></div>
+                <p>Cupos: <span th:text="${actividad.inscriptosActivos}"></span> / <span th:text="${actividad.cupos}"></span></p>
+
+                <div class="card mb-4">
+                    <div class="card-header">Inscribir socio</div>
+                    <div class="card-body">
+                        <form th:action="@{/admin/actividades/{id}/inscribir(id=${actividad.id})}" method="post" class="row g-2">
+                            <div class="col-md-9">
+                                <select class="form-select" name="socioId">
+                                    <option th:each="s : ${socios}" th:value="${s.id}" th:text="${s.nombre} + ' ' + ${s.apellido}"></option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-primary w-100" type="submit">Inscribir</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead><tr><th>Socio</th><th>Fecha inscripcion</th><th>Estado</th><th></th></tr></thead>
+                                <tbody>
+                                <tr th:each="i : ${inscripciones}">
+                                    <td th:text="${i.socioNombreCompleto}"></td>
+                                    <td th:text="${i.fechaInscripcion}"></td>
+                                    <td th:text="${i.estado}"></td>
+                                    <td>
+                                        <form th:action="@{/admin/actividades/{id}/inscripciones/{iid}/cancelar(id=${actividad.id},iid=${i.id})}" method="post"
+                                              onsubmit="return confirm('¿Cancelar esta inscripcion?');">
+                                            <button class="btn btn-sm btn-outline-danger" type="submit">Cancelar</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(inscripciones)}"><td colspan="4" class="text-muted">Sin inscriptos activos.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </div>
+</div>
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

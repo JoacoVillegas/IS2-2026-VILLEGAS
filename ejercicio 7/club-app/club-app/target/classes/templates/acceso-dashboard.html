@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: documentHead('Registro de accesos')}"></head>
+<body class="sb-nav-fixed">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div id="layoutSidenav">
+    <!-- Sidebar distinto segun el rol: ADMIN ve el menu completo, RECEPCION ve solo accesos. -->
+    <div id="layoutSidenav_nav" sec:authorize="hasRole('ADMIN')" th:replace="~{fragments/layout :: sidebar-admin}"></div>
+    <div id="layoutSidenav_nav" sec:authorize="!hasRole('ADMIN')" th:replace="~{fragments/layout :: sidebar-recepcion}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Registro de accesos</h1>
+                <div th:replace="~{fragments/layout :: alertas}"></div>
+
+                <div class="card mb-4">
+                    <div class="card-header">Registrar entrada</div>
+                    <div class="card-body">
+                        <form th:action="@{/acceso/entrada}" method="post" class="row g-2">
+                            <div class="col-md-9">
+                                <select class="form-select" name="personaId">
+                                    <option th:each="p : ${personas}" th:value="${p.id}" th:text="${p.nombre} + ' ' + ${p.apellido}"></option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-primary w-100" type="submit">Registrar entrada</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-header">Ultimos registros</div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead><tr><th>Persona</th><th>Fecha</th><th>Entrada</th><th>Salida</th><th>Duracion</th><th></th></tr></thead>
+                                <tbody>
+                                <tr th:each="r : ${registros}">
+                                    <td th:text="${r.personaNombreCompleto}"></td>
+                                    <td th:text="${r.fecha}"></td>
+                                    <td th:text="${r.horaEntrada}"></td>
+                                    <td th:text="${r.horaSalida} ?: '-'"></td>
+                                    <td th:text="${r.duracion}"></td>
+                                    <td>
+                                        <form th:if="${r.horaSalida == null}" th:action="@{/acceso/{id}/salida(id=${r.id})}" method="post">
+                                            <button class="btn btn-sm btn-outline-secondary" type="submit">Registrar salida</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </div>
+</div>
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

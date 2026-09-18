@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: documentHead('Detalle de familia')}"></head>
+<body class="sb-nav-fixed">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav" th:replace="~{fragments/layout :: sidebar-admin}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Familia de <span th:text="${familia.socioTitularNombreCompleto}"></span></h1>
+                <div th:replace="~{fragments/layout :: alertas}"></div>
+
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-header">Integrantes</div>
+                            <div class="card-body">
+                                <ul class="list-group mb-3">
+                                    <li class="list-group-item" th:each="p : ${familia.familiares}" th:text="${p.nombre} + ' ' + ${p.apellido}"></li>
+                                    <li class="list-group-item text-muted" th:if="${#lists.isEmpty(familia.familiares)}">Sin integrantes cargados todavia.</li>
+                                </ul>
+
+                                <div class="club-form-seccion">
+                                    <h6>Agregar familiar nuevo</h6>
+                                    <form th:action="@{/admin/familias/{id}/familiares/nuevo(id=${familia.id})}" th:object="${personaDTO}" method="post" class="row g-2">
+                                        <div class="col-md-4">
+                                            <input class="form-control" placeholder="Nombre" th:field="*{nombre}" />
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input class="form-control" placeholder="Apellido" th:field="*{apellido}" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input class="form-control" type="date" th:field="*{fechaNacimiento}" />
+                                        </div>
+                                        <div class="col-md-1">
+                                            <button class="btn btn-primary w-100" type="submit">+</button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="club-form-seccion" th:if="${!#lists.isEmpty(personasDisponibles)}">
+                                    <h6>Asociar persona existente</h6>
+                                    <form th:action="@{/admin/familias/{id}/familiares/existente(id=${familia.id})}" method="post" class="row g-2">
+                                        <div class="col-md-9">
+                                            <select class="form-select" name="personaId">
+                                                <option th:each="p : ${personasDisponibles}" th:value="${p.id}" th:text="${p.nombre} + ' ' + ${p.apellido}"></option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button class="btn btn-secondary w-100" type="submit">Asociar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                Pagos
+                                <a class="btn btn-sm btn-primary" th:href="@{/admin/pagos/nuevo(familiaId=${familia.id})}">Registrar pago</a>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-striped">
+                                        <thead><tr><th>Fecha</th><th>Periodo</th><th>Importe</th><th>Medio</th><th>Estado</th><th></th></tr></thead>
+                                        <tbody>
+                                        <tr th:each="pago : ${pagos}">
+                                            <td th:text="${pago.fecha}"></td>
+                                            <td th:text="${pago.periodo}"></td>
+                                            <td th:text="${pago.importe}"></td>
+                                            <td th:text="${pago.medioPago}"></td>
+                                            <td th:text="${pago.estado}"></td>
+                                            <td>
+                                                <form th:if="${pago.estado == 'REGISTRADO'}" th:action="@{/admin/pagos/{id}/anular(id=${pago.id})}" method="post"
+                                                      onsubmit="return confirm('¿Anular este pago?');">
+                                                    <button class="btn btn-sm btn-outline-danger" type="submit">Anular</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        <tr th:if="${#lists.isEmpty(pagos)}"><td colspan="6" class="text-muted">Sin pagos registrados todavia.</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </div>
+</div>
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

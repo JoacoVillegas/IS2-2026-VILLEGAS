@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: documentHead('Registrar pago')}"></head>
+<body class="sb-nav-fixed">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav" th:replace="~{fragments/layout :: sidebar-admin}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Registrar pago</h1>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <form th:action="@{/admin/pagos}" th:object="${pagoDTO}" method="post">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Familia</label>
+                                    <select class="form-select" th:field="*{grupoFamiliarId}">
+                                        <option th:each="f : ${familias}" th:value="${f.id}" th:text="'Familia de ' + ${f.socioTitularNombreCompleto}"></option>
+                                    </select>
+                                    <div class="text-danger small" th:if="${#fields.hasErrors('grupoFamiliarId')}" th:errors="*{grupoFamiliarId}"></div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Fecha</label>
+                                    <input class="form-control" type="date" th:field="*{fecha}" />
+                                    <div class="text-danger small" th:if="${#fields.hasErrors('fecha')}" th:errors="*{fecha}"></div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Periodo (AAAA-MM)</label>
+                                    <input class="form-control" placeholder="2026-09" th:field="*{periodo}" />
+                                    <div class="text-danger small" th:if="${#fields.hasErrors('periodo')}" th:errors="*{periodo}"></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Importe</label>
+                                    <input class="form-control" type="number" step="0.01" min="0.01" th:field="*{importe}" />
+                                    <div class="text-danger small" th:if="${#fields.hasErrors('importe')}" th:errors="*{importe}"></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Medio de pago</label>
+                                    <select class="form-select" th:field="*{medioPago}">
+                                        <option th:each="m : ${medios}" th:value="${m}" th:text="${m}"></option>
+                                    </select>
+                                    <div class="text-danger small" th:if="${#fields.hasErrors('medioPago')}" th:errors="*{medioPago}"></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Comprobante (opcional)</label>
+                                    <input class="form-control" th:field="*{comprobante}" />
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <button class="btn btn-primary" type="submit">Registrar</button>
+                                <a class="btn btn-secondary" th:href="@{/admin/pagos}">Cancelar</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </div>
+</div>
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

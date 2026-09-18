@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: documentHead('Pagos')}"></head>
+<body class="sb-nav-fixed">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav" th:replace="~{fragments/layout :: sidebar-admin}"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Pagos</h1>
+                <div th:replace="~{fragments/layout :: alertas}"></div>
+                <a class="btn btn-primary mb-3" th:href="@{/admin/pagos/nuevo}">Registrar pago</a>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead><tr><th>Familia</th><th>Fecha</th><th>Periodo</th><th>Importe</th><th>Medio</th><th>Estado</th><th></th></tr></thead>
+                                <tbody>
+                                <tr th:each="pago : ${pagos}">
+                                    <td th:text="${pago.familiaDescripcion}"></td>
+                                    <td th:text="${pago.fecha}"></td>
+                                    <td th:text="${pago.periodo}"></td>
+                                    <td th:text="${pago.importe}"></td>
+                                    <td th:text="${pago.medioPago}"></td>
+                                    <td th:text="${pago.estado}"></td>
+                                    <td>
+                                        <form th:if="${pago.estado == 'REGISTRADO'}" th:action="@{/admin/pagos/{id}/anular(id=${pago.id})}" method="post"
+                                              onsubmit="return confirm('¿Anular este pago?');">
+                                            <button class="btn btn-sm btn-outline-danger" type="submit">Anular</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </div>
+</div>
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>
