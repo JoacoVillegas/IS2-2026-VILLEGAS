@@ -18,5 +18,8 @@ public class Main {
         //Comprobacion
         System.out.println("¿las referencias son iguales?");
         System.out.println(config1 ==  config2);
+
+        System.out.println(config1.getInstancia());
+        System.out.println(config2);
     }
 }
